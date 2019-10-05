@@ -128,7 +128,7 @@ function carregarListaDespesa() {
         btn.className = 'btn btn-danger'
         btn.innerHTML = '<i class="fas fa-times"></i>'
         btn.id = `id_despesa_${despesa.id}`
-        btn.onclick = function() {
+        btn.onclick = function () {
             let btn_id = this.id.replace('id_despesa_', '')
             bancoDados.remover(btn_id)
             // recarrega a página
@@ -166,7 +166,7 @@ function pesquisarDespesa() {
         btn.className = 'btn btn-danger'
         btn.innerHTML = '<i class="fas fa-times"></i>'
         btn.id = `id_despesa_${d.id}`
-        btn.onclick = function() {
+        btn.onclick = function () {
             let btn_id = this.id.replace('id_despesa_', '')
             bancoDados.remover(btn_id)
             // recarrega a página
@@ -176,3 +176,24 @@ function pesquisarDespesa() {
         linha.insertCell().append(btn)
     })
 }
+
+
+function preencherDataAutomaticamente() {
+    let hoje = new Date()
+    let dia = hoje.getDate()
+    let mes = hoje.getMonth() + 1
+    let ano = hoje.getFullYear()
+
+    if (mes < 10) {
+        mes = `0${hoje.getMonth() + 1}`
+    } else {
+        mes = mes.toString()
+    }
+
+    document.getElementById('dia').value = dia
+    document.getElementById('mes').value = mes
+    document.getElementById('ano').value = ano
+
+}
+
+window.onload = preencherDataAutomaticamente()
