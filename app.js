@@ -50,10 +50,16 @@ class Despesa {
             if (numero % 3 != 0) {
                 audioErro.play()
             } else {
-                if (numero != 666) {
-                    audioErro2.play()
-                } else {
+                if (this.valor == 666 && this.descrição == 666) {
                     musicaD.play()
+                    document.body.style.color = 'black';
+                    document.body.classList ='body-hell'
+                    document.getElementById('navbar').classList = 'navbar navbar-expand-lg nav-hell bg-primary mb-5'
+                    document.getElementById('btn-cadastrar').classList = 'btn btn-hell'
+
+
+                } else {
+                    audioErro2.play()
                 }
             }
             numero++
