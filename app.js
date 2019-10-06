@@ -107,12 +107,60 @@ function cadastrarDespesa() {
     // cria uma nova despesa
     let despesa = new Despesa(ano.value, mes.value, dia.value, tipo.value, descrição.value, valor.value)
     console.log(despesa);
+    // validação de dados
+    if (despesa.ano == '' || despesa.mes == '' || despesa.dia == '' || despesa.tipo == '' || despesa.valor == '') {
+        // mostra modal erro
+        $('#erroGravacao').modal('show')
+    } else {
+        // limpa os campos
+        valor.value = ''
+        descrição.value = ''
+        tipo.value = ''
+        // mostra modal
+        $('#sucessoGravacao').modal('toggle')
 
-    // grava a despesa no banco de dados
-    bancoDados.gravarLocalStorage(despesa)
+
+       /* setTimeout(function(){
+            $("#sucessoGravacao").hide();
+        }, 300);
+        */
+
+        
+        // grava a despesa no banco de dados
+        bancoDados.gravarLocalStorage(despesa)
+    }
+    // marca os itens não preenchidos com uma borda vermelha
+    // valor
+    if (despesa.valor == '') {
+        valor.classList.add("cadastroErro");
+    } else {
+        valor.classList.remove("cadastroErro");
+    }
+    // tipo
+    if (despesa.tipo == '') {
+        tipo.classList.add("cadastroErro");
+    } else {
+        tipo.classList.remove("cadastroErro");
+    }
+    // ano
+    if (despesa.ano == '') {
+        ano.classList.add("cadastroErro");
+    } else {
+        ano.classList.remove("cadastroErro");
+    }
+    // mes
+    if (despesa.mes == '') {
+        mes.classList.add("cadastroErro");
+    } else {
+        mes.classList.remove("cadastroErro");
+    }
+    // dia
+    if (despesa.dia == '') {
+        dia.classList.add("cadastroErro");
+    } else {
+        dia.classList.remove("cadastroErro");
+    }
 }
-
-
 
 function carregarListaDespesa() {
     let listaDespesas = document.getElementById('listaDespesas')
