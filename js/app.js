@@ -10,12 +10,51 @@ class Despesa {
         this.valor = valor
     }
     validarDados() {
+        // validação de dados
+        if (this.ano == '' || this.mes == '' || this.dia == '' || this.tipo == '' || this.valor == '') {
+            return false
+        } else {
+            return true
+        }
+    }
+    alertas() {
         let audioErro = new Audio('music/Fuck.mp3')
         let audioErro2 = new Audio('music/FUUUCK.mp3')
         let audioSucesso = new Audio('music/Helicopter_By.mp3')
         let musicaD = new Audio('music/musicaFull.mp3')
         console.log(numero);
-        // marca os campos com borda vermelha
+        if (this.validarDados() == true) {
+            valor.value = ''
+            descricao.value = ''
+            tipo.value = ''
+            audioSucesso.play()
+            tipo.focus()
+            // mostra modal
+            $('#sucessoGravacao').modal('show')
+            setTimeout(function () {
+                $("#sucessoGravacao").modal('hide');
+            }, 700);
+        } else {
+            if (numero % 3 != 0) {
+                audioErro.play()
+            } else {
+                if (this.valor == 666 && this.descrição == 666) {
+                    musicaD.play()
+                    document.body.style.color = 'black';
+                    document.body.classList = 'body-hell'
+                    document.getElementById('navbar').classList = 'navbar navbar-expand-lg nav-hell bg-primary mb-5'
+                    document.getElementById('btn-cadastrar').classList = 'btn btn-hell'
+                } else {
+                    audioErro2.play()
+                }
+            }
+            numero++
+            $('#erroGravacao').modal('show')
+        }
+    }
+    // marca os campos com borda vermelha
+    mudarBordaVermelhoCadastrarNaoPreenchido() {
+        // valor
         if (valor.value == '') {
             valor.classList.add("cadastroErro");
         } else {
@@ -45,39 +84,8 @@ class Despesa {
         } else {
             dia.classList.remove("cadastroErro");
         }
-        // validação de dados
-        if (this.ano == '' || this.mes == '' || this.dia == '' || this.tipo == '' || this.valor == '') {
-            if (numero % 3 != 0) {
-                audioErro.play()
-            } else {
-                if (this.valor == 666 && this.descrição == 666) {
-                    musicaD.play()
-                    document.body.style.color = 'black';
-                    document.body.classList = 'body-hell'
-                    document.getElementById('navbar').classList = 'navbar navbar-expand-lg nav-hell bg-primary mb-5'
-                    document.getElementById('btn-cadastrar').classList = 'btn btn-hell'
-                } else {
-                    audioErro2.play()
-                }
-            }
-            numero++
-            $('#erroGravacao').modal('show')
-            return false
-        } else {
-            valor.value = ''
-            descricao.value = ''
-            tipo.value = ''
-            audioSucesso.play()
-            tipo.focus()
-            // mostra modal
-            $('#sucessoGravacao').modal('show')
-            setTimeout(function () {
-                $("#sucessoGravacao").modal('hide');
-            }, 700);
-            return true
-        }
     }
-    
+
 }
 // 
 class BancoDados {
@@ -176,7 +184,8 @@ function cadastrarDespesa() {
     let valor = document.getElementById('valor')
 
     let despesa = new Despesa(ano.value, mes.value, dia.value, tipo.value, descrição.value, valor.value)
-
+    despesa.mudarBordaVermelhoCadastrarNaoPreenchido()
+    despesa.alertas()
     if (despesa.validarDados() == true) {
         bancoDados.gravarLocalStorage(despesa)
     }
@@ -184,7 +193,7 @@ function cadastrarDespesa() {
 
 function cadastrarDespesaEnterKeyPress() {
     let key = event.keyCode;
- 
+
     if (key == 13) {
         cadastrarDespesa()
     }
