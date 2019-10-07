@@ -10,12 +10,14 @@
 
   <!-- Font Awesome -->
   <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-  
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
 </head>
 
-<body>
+<body onkeydown="cadastrarDespesaEnterKeyPress()">
   <!-- navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
+  <nav id="navbar" class="navbar navbar-expand-lg navbar-dark bg-primary mb-5">
     <div class="container">
       <!-- brand -->
       <a class="navbar-brand" href="#">
@@ -50,7 +52,7 @@
     </div>
     <!-- Inputs -->
     <div class="row mb-2">
-      
+
       <div class="col-md-2">
         <select class="form-control" id="ano">
           <option value="">Ano</option>
@@ -103,33 +105,58 @@
       </div>
 
       <div class="col-md-2 d-flex justify-content-end">
-        <button type="button" class="btn btn-primary" onclick="cadastrarDespesa()">
+        <button id="btn-cadastrar" type="button" class="btn btn-primary" onclick="cadastrarDespesa()">
           <i class="fas fa-plus"></i>
         </button>
       </div>
     </div>
-    
+
+  </div>
+
+  <!-- Modal Sucesso -->
+  <div class="modal fade" id="sucessoGravacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true" data-focus="false" data-backdrop='false'>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-success" id="exampleModalLongTitle">
+            Sucesso!
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Despesa cadastrada com sucesso!
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 
-
-
-  <!-- Modal Sucesso -->
-  <div class="modal fade" id="sucessoGravacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  <!-- Modal Erro-->
+  <div class="modal fade" id="erroGravacao" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div id="modalTituloDiv">
-          <h5 class="modal-title" id="tituloModal"></h5>
+        <div id="modalTituloDiv" class="modal-header text-danger">
+          <h5 class="modal-title" id="tituloModal">
+            Erro na inclusão do registro
+          </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div id="texto" class="modal-body">
-
+          Erro na gravação, verifique se todos os campos foram preenchidos corretamente!
         </div>
         <div class="modal-footer">
-          <button id="modalButtonDiv" type="button" class="" data-dismiss="modal"></button>
+          <button id="modalButtonDiv" type="button" class="btn-Danger btn" data-dismiss="modal">
+            Voltar e corrigir
+          </button>
         </div>
       </div>
     </div>

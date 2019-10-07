@@ -1,0 +1,26 @@
+.cadastroErro {
+    border: 2px solid red;
+}
+
+.nav-hell {
+    background-color: rgb(117, 3, 3) !important;
+    color: black;
+    border-bottom: 2px solid black;
+}
+.nav-hell a {
+    color: black;
+}
+.nav-hell a:hover {
+    border-bottom: 2px solid black;
+}
+
+.btn-hell{
+    color: black;
+    background-color: rgb(117, 3, 3);
+    border: 2px solid black;
+}
+
+.body-hell {
+    background-color: rgb(117, 3, 3);
+    background-image: url(img/sangue2.png)
+}

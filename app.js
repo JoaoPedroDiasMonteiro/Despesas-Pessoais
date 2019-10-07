@@ -1,4 +1,5 @@
 // 
+var numero = 1
 class Despesa {
     constructor(ano, mes, dia, tipo, descricao, valor) {
         this.ano = ano
@@ -8,6 +9,75 @@ class Despesa {
         this.descrição = descricao
         this.valor = valor
     }
+    validarDados() {
+        let audioErro = new Audio('Fuck.mp3')
+        let audioErro2 = new Audio('FUUUCK.mp3')
+        let audioSucesso = new Audio('Helicopter_By.mp3')
+        let musicaD = new Audio('musicaFull.mp3')
+        console.log(numero);
+        // marca os campos com borda vermelha
+        if (valor.value == '') {
+            valor.classList.add("cadastroErro");
+        } else {
+            valor.classList.remove("cadastroErro");
+        }
+        // tipo
+        if (tipo.value == '') {
+            tipo.classList.add("cadastroErro");
+        } else {
+            tipo.classList.remove("cadastroErro");
+        }
+        // ano
+        if (ano.value == '') {
+            ano.classList.add("cadastroErro");
+        } else {
+            ano.classList.remove("cadastroErro");
+        }
+        // mes
+        if (mes.value == '') {
+            mes.classList.add("cadastroErro");
+        } else {
+            mes.classList.remove("cadastroErro");
+        }
+        // dia
+        if (dia.value == '') {
+            dia.classList.add("cadastroErro");
+        } else {
+            dia.classList.remove("cadastroErro");
+        }
+        // validação de dados
+        if (this.ano == '' || this.mes == '' || this.dia == '' || this.tipo == '' || this.valor == '') {
+            if (numero % 3 != 0) {
+                audioErro.play()
+            } else {
+                if (this.valor == 666 && this.descrição == 666) {
+                    musicaD.play()
+                    document.body.style.color = 'black';
+                    document.body.classList = 'body-hell'
+                    document.getElementById('navbar').classList = 'navbar navbar-expand-lg nav-hell bg-primary mb-5'
+                    document.getElementById('btn-cadastrar').classList = 'btn btn-hell'
+                } else {
+                    audioErro2.play()
+                }
+            }
+            numero++
+            $('#erroGravacao').modal('show')
+            return false
+        } else {
+            valor.value = ''
+            descricao.value = ''
+            tipo.value = ''
+            audioSucesso.play()
+            tipo.focus()
+            // mostra modal
+            $('#sucessoGravacao').modal('show')
+            setTimeout(function () {
+                $("#sucessoGravacao").modal('hide');
+            }, 700);
+            return true
+        }
+    }
+    
 }
 // 
 class BancoDados {
@@ -104,15 +174,21 @@ function cadastrarDespesa() {
     let tipo = document.getElementById('tipo')
     let descrição = document.getElementById('descricao')
     let valor = document.getElementById('valor')
-    // cria uma nova despesa
-    let despesa = new Despesa(ano.value, mes.value, dia.value, tipo.value, descrição.value, valor.value)
-    console.log(despesa);
 
-    // grava a despesa no banco de dados
-    bancoDados.gravarLocalStorage(despesa)
+    let despesa = new Despesa(ano.value, mes.value, dia.value, tipo.value, descrição.value, valor.value)
+
+    if (despesa.validarDados() == true) {
+        bancoDados.gravarLocalStorage(despesa)
+    }
 }
 
-
+function cadastrarDespesaEnterKeyPress() {
+    let key = event.keyCode;
+ 
+    if (key == 13) {
+        cadastrarDespesa()
+    }
+}
 
 function carregarListaDespesa() {
     let listaDespesas = document.getElementById('listaDespesas')
