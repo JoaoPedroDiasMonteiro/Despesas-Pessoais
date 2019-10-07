@@ -53,11 +53,9 @@ class Despesa {
                 if (this.valor == 666 && this.descrição == 666) {
                     musicaD.play()
                     document.body.style.color = 'black';
-                    document.body.classList ='body-hell'
+                    document.body.classList = 'body-hell'
                     document.getElementById('navbar').classList = 'navbar navbar-expand-lg nav-hell bg-primary mb-5'
                     document.getElementById('btn-cadastrar').classList = 'btn btn-hell'
-
-
                 } else {
                     audioErro2.play()
                 }
@@ -70,12 +68,16 @@ class Despesa {
             descricao.value = ''
             tipo.value = ''
             audioSucesso.play()
+            tipo.focus()
             // mostra modal
             $('#sucessoGravacao').modal('show')
+            setTimeout(function () {
+                $("#sucessoGravacao").modal('hide');
+            }, 700);
             return true
         }
     }
-
+    
 }
 // 
 class BancoDados {
@@ -177,6 +179,14 @@ function cadastrarDespesa() {
 
     if (despesa.validarDados() == true) {
         bancoDados.gravarLocalStorage(despesa)
+    }
+}
+
+function cadastrarDespesaEnterKeyPress() {
+    let key = event.keyCode;
+ 
+    if (key == 13) {
+        cadastrarDespesa()
     }
 }
 
