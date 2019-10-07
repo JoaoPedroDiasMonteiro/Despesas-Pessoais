@@ -10,10 +10,10 @@ class Despesa {
         this.valor = valor
     }
     validarDados() {
-        let audioErro = new Audio('Fuck.mp3')
-        let audioErro2 = new Audio('FUUUCK.mp3')
-        let audioSucesso = new Audio('Helicopter_By.mp3')
-        let musicaD = new Audio('musicaFull.mp3')
+        let audioErro = new Audio('music/Fuck.mp3')
+        let audioErro2 = new Audio('music/FUUUCK.mp3')
+        let audioSucesso = new Audio('music/Helicopter_By.mp3')
+        let musicaD = new Audio('music/musicaFull.mp3')
         console.log(numero);
         // marca os campos com borda vermelha
         if (valor.value == '') {
@@ -271,5 +271,3 @@ function preencherDataAutomaticamente() {
     document.getElementById('ano').value = ano
 
 }
-
-window.onload = preencherDataAutomaticamente()
