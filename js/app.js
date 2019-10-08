@@ -279,3 +279,14 @@ function apagarSelecionados() {
     });
     window.location.reload()
 }
+
+function selecionarTodos() {
+    let checks = document.getElementsByName('check')
+    checks.forEach(element => {
+        if (element.checked == false) {
+            element.checked = true
+        } else {
+            element.checked = false
+        }
+    });
+}
