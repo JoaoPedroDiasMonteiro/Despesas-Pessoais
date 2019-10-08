@@ -2,6 +2,22 @@
     border: 2px solid red;
 }
 
+
+#listaDespesas button {
+    background-color: red;
+    color: white;
+    border: none;
+    width: 45px;
+    height: 35px;;
+}
+
+#listaDespesas button:hover {
+    background-color: rgb(207, 0, 0);
+    box-shadow: 3px 3px 4px 0px rgba(255, 0, 0, 0.363);
+    margin-top: 1px;
+}
+
+/* meme */
 .nav-hell {
     background-color: rgb(117, 3, 3) !important;
     color: black;
@@ -24,3 +40,4 @@
     background-color: rgb(117, 3, 3);
     background-image: url('../img/sangue2.png')
 }
+/* meme fim */

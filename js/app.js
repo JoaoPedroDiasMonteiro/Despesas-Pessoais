@@ -199,29 +199,38 @@ function cadastrarDespesaEnterKeyPress() {
     }
 }
 
+function imprimirDespesas(despesas, listaDespesas) {
+
+    despesas.forEach(function (element) {
+        let linha = listaDespesas.insertRow()
+        // criar checkbox
+        let checkbox = document.createElement('input')
+        checkbox.type = 'checkbox'
+        checkbox.id = element.id
+        checkbox.className = 'checkbox'
+        // botão para excluir despesa
+        let btn = document.createElement('button')
+        btn.innerHTML = '<i class="fas fa-times"></i>'
+        btn.id = element.id
+        btn.onclick = function () {
+            bancoDados.remover(element.id)
+            window.location.reload()
+        }
+        // inserir as coisas
+        linha.insertCell().append(checkbox)
+        linha.insertCell().innerHTML = `${element.dia}/${element.mes}/${element.ano}`
+        linha.insertCell().innerHTML = element.tipo
+        linha.insertCell().innerHTML = element.descrição
+        linha.insertCell().innerHTML = element.valor
+        linha.insertCell().append(btn)
+    })
+}
+
 function carregarListaDespesa() {
     let listaDespesas = document.getElementById('listaDespesas')
     let despesas = bancoDados.recuperarTodosRegistros()
-    despesas.forEach(function (despesa) {
-        let linha = listaDespesas.insertRow()
-        linha.insertCell().innerHTML = `${despesa.dia}/${despesa.mes}/${despesa.ano}`
-        linha.insertCell().innerHTML = despesa.tipo
-        linha.insertCell().innerHTML = despesa.descrição
-        linha.insertCell().innerHTML = despesa.valor
-        // botão para excluir despesa
-        let btn = document.createElement('button')
-        btn.className = 'btn btn-danger'
-        btn.innerHTML = '<i class="fas fa-times"></i>'
-        btn.id = `id_despesa_${despesa.id}`
-        btn.onclick = function () {
-            let btn_id = this.id.replace('id_despesa_', '')
-            bancoDados.remover(btn_id)
-            // recarrega a página
-            window.location.reload()
-        }
-        // fim botão
-        linha.insertCell().append(btn)
-    })
+    listaDespesas.innerHTML = ''
+    imprimirDespesas(despesas, listaDespesas)
 }
 
 
@@ -237,31 +246,9 @@ function pesquisarDespesa() {
 
     let despesasFiltradas = bancoDados.pesquisar(despesa)
     let listaDespesas = document.getElementById('listaDespesas')
-
     listaDespesas.innerHTML = ''
-
-    despesasFiltradas.forEach(function (d) {
-        let linha = listaDespesas.insertRow()
-        linha.insertCell().innerHTML = `${d.dia}/${d.mes}/${d.ano}`
-        linha.insertCell().innerHTML = d.tipo
-        linha.insertCell().innerHTML = d.descrição
-        linha.insertCell().innerHTML = d.valor
-        // botão para excluir despesa
-        let btn = document.createElement('button')
-        btn.className = 'btn btn-danger'
-        btn.innerHTML = '<i class="fas fa-times"></i>'
-        btn.id = `id_despesa_${d.id}`
-        btn.onclick = function () {
-            let btn_id = this.id.replace('id_despesa_', '')
-            bancoDados.remover(btn_id)
-            // recarrega a página
-            window.location.reload()
-        }
-        // fim botão
-        linha.insertCell().append(btn)
-    })
+    imprimirDespesas(despesasFiltradas,listaDespesas)
 }
-
 
 function preencherDataAutomaticamente() {
     let hoje = new Date()
@@ -278,5 +265,4 @@ function preencherDataAutomaticamente() {
     document.getElementById('dia').value = dia
     document.getElementById('mes').value = mes
     document.getElementById('ano').value = ano
-
 }
