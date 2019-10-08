@@ -199,7 +199,7 @@ function cadastrarDespesaEnterKeyPress() {
     }
 }
 
-function imprimirDespesas(despesas, listaDespesas) {
+function imprimirDespesas(despesas, listaDespesas, btnAtualizar) {
 
     despesas.forEach(function (element) {
         let linha = listaDespesas.insertRow()
@@ -214,7 +214,12 @@ function imprimirDespesas(despesas, listaDespesas) {
         btn.id = element.id
         btn.onclick = function () {
             bancoDados.remover(element.id)
-            window.location.reload()
+            if (btnAtualizar == 'despesas') {
+                carregarListaDespesa()
+            }
+            if (btnAtualizar == 'pesquisas') {
+                pesquisarDespesa()
+            }
         }
         // inserir as coisas
         linha.insertCell().append(checkbox)
@@ -230,7 +235,7 @@ function carregarListaDespesa() {
     let listaDespesas = document.getElementById('listaDespesas')
     let despesas = bancoDados.recuperarTodosRegistros()
     listaDespesas.innerHTML = ''
-    imprimirDespesas(despesas, listaDespesas)
+    imprimirDespesas(despesas, listaDespesas, 'despesas')
 }
 
 
@@ -247,7 +252,7 @@ function pesquisarDespesa() {
     let despesasFiltradas = bancoDados.pesquisar(despesa)
     let listaDespesas = document.getElementById('listaDespesas')
     listaDespesas.innerHTML = ''
-    imprimirDespesas(despesasFiltradas, listaDespesas)
+    imprimirDespesas(despesasFiltradas, listaDespesas, 'pesquisas')
 }
 
 function preencherDataAutomaticamente() {
