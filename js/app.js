@@ -206,8 +206,8 @@ function imprimirDespesas(despesas, listaDespesas) {
         // criar checkbox
         let checkbox = document.createElement('input')
         checkbox.type = 'checkbox'
-        checkbox.id = element.id
-        checkbox.className = 'checkbox'
+        checkbox.value = element.id
+        checkbox.name = 'check'
         // botão para excluir despesa
         let btn = document.createElement('button')
         btn.innerHTML = '<i class="fas fa-times"></i>'
@@ -247,7 +247,7 @@ function pesquisarDespesa() {
     let despesasFiltradas = bancoDados.pesquisar(despesa)
     let listaDespesas = document.getElementById('listaDespesas')
     listaDespesas.innerHTML = ''
-    imprimirDespesas(despesasFiltradas,listaDespesas)
+    imprimirDespesas(despesasFiltradas, listaDespesas)
 }
 
 function preencherDataAutomaticamente() {
@@ -265,4 +265,17 @@ function preencherDataAutomaticamente() {
     document.getElementById('dia').value = dia
     document.getElementById('mes').value = mes
     document.getElementById('ano').value = ano
+}
+
+
+
+function apagarSelecionados() {
+    let checks = document.getElementsByName('check')
+    console.log(checks);
+    checks.forEach(element => {
+        if (element.checked == true) {
+            bancoDados.remover(element.value)
+        }
+    });
+    window.location.reload()
 }
