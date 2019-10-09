@@ -213,12 +213,15 @@ function imprimirDespesas(despesas, listaDespesas, btnAtualizar) {
         btn.innerHTML = '<i class="fas fa-times"></i>'
         btn.id = element.id
         btn.onclick = function () {
-            bancoDados.remover(element.id)
-            if (btnAtualizar == 'despesas') {
-                carregarListaDespesa()
-            }
-            if (btnAtualizar == 'pesquisas') {
-                pesquisarDespesa()
+            var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
+            if (r == true) {
+                bancoDados.remover(element.id)
+                if (btnAtualizar == 'despesas') {
+                    carregarListaDespesa()
+                }
+                if (btnAtualizar == 'pesquisas') {
+                    pesquisarDespesa()
+                }
             }
         }
         // inserir as coisas
@@ -276,13 +279,16 @@ function preencherDataAutomaticamente() {
 
 function apagarSelecionados() {
     let checks = document.getElementsByName('check')
-    console.log(checks);
-    checks.forEach(element => {
-        if (element.checked == true) {
-            bancoDados.remover(element.value)
-        }
-    });
-    window.location.reload()
+    var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
+    if (r == true) {
+        checks.forEach(element => {
+            if (element.checked == true) {
+                bancoDados.remover(element.value)
+            }
+        });
+        window.location.reload()
+    }
+
 }
 
 function selecionarTodos() {
