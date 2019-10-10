@@ -86,14 +86,9 @@ class Despesa {
         }
     }
 
-}
-// 
+} // Despesas fim
+
 class BancoDados {
-    // constructor() {
-    //     this.key = localStorage.getItem('id')
-    //     this.value = localStorage.getItem(this.key)
-    // }
-    //
     criarId() {
         if (localStorage.getItem('id') === null) {
             localStorage.setItem('id', 0)
@@ -172,6 +167,97 @@ class BancoDados {
 
 } // fim BancoDados
 
+class Tabela {
+    constructor(lugarParaImprimir, ano, mes, dia, tipo, descrição, valor) {
+        this.lugarParaImprimir = lugarParaImprimir
+        this.ano = ano
+        this.mes = mes
+        this.dia = dia
+        this.tipo = tipo
+        this.descrição = descrição
+        this.valor = valor
+    }
+    imprimirDespesas(despesas) {
+        this.lugarParaImprimir.innerHTML = ''
+        despesas.forEach(element => {
+            let linha = this.lugarParaImprimir.insertRow()
+            linha.classList = 'aaa'
+            // criar checkbox
+            let checkbox = document.createElement('input')
+            checkbox.type = 'checkbox'
+            checkbox.value = element.id
+            checkbox.name = 'check'
+            // função mudar de cor on click
+            linha.onclick = function () {
+                if (checkbox.checked == false) {
+                    linha.style.backgroundColor = 'rgba(173, 173, 173, 0.63)'
+                    checkbox.checked = true
+                } else {
+                    linha.style.backgroundColor = 'white'
+                    checkbox.checked = false
+                }
+            }
+            // função mudar de cor on click
+            checkbox.onclick = function () {
+                if (checkbox.checked == false) {
+                    linha.style.backgroundColor = 'rgba(173, 173, 173, 0.63)'
+                    checkbox.checked = true
+                } else {
+                    linha.style.backgroundColor = 'white'
+                    checkbox.checked = false
+                }
+            }
+            // botão para excluir despesa
+            let btn = document.createElement('button')
+            btn.innerHTML = '<i class="fas fa-times"></i>'
+            btn.id = element.id
+            btn.onclick = function () {
+                var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
+                if (r == true) {
+                    bancoDados.remover(element.id)
+                    window.location.reload()
+                }
+            }
+            // inserir as coisas
+            linha.insertCell().append(checkbox)
+            linha.insertCell().innerHTML = `${element.dia}/${element.mes}/${element.ano}`
+            linha.insertCell().innerHTML = element.tipo
+            linha.insertCell().innerHTML = element.descrição
+            linha.insertCell().innerHTML = element.valor
+            linha.insertCell().append(btn)
+        })
+    }
+    selecionarTodosItems() {
+        let checks = document.getElementsByName('check')
+        checks.forEach(element => {
+            if (element.checked == false) {
+                element.checked = true
+            } else {
+                element.checked = false
+            }
+        });
+    }
+    apagarItemsSelecionados() {
+        let checks = document.getElementsByName('check')
+        var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
+        if (r == true) {
+            checks.forEach(element => {
+                if (element.checked == true) {
+                    bancoDados.remover(element.value)
+                }
+            });
+            window.location.reload()
+        }
+    }
+    imprimirDespesasPesquisadas() {
+        let despesa = new Despesa(this.ano, this.mes, this.dia, this.tipo, this.descrição, this.valor)
+        let despesasFiltradas = bancoDados.pesquisar(despesa)
+        this.imprimirDespesas(despesasFiltradas)
+        console.log(this.ano, this.mes, this.dia, this.tipo, this.descrição, this.valor);
+    }
+
+} // Tabela Fim
+
 // cria o banco de dados
 let bancoDados = new BancoDados
 
@@ -199,65 +285,6 @@ function cadastrarDespesaEnterKeyPress() {
     }
 }
 
-function imprimirDespesas(despesas, listaDespesas, btnAtualizar) {
-
-    despesas.forEach(function (element) {
-        let linha = listaDespesas.insertRow()
-        // criar checkbox
-        let checkbox = document.createElement('input')
-        checkbox.type = 'checkbox'
-        checkbox.value = element.id
-        checkbox.name = 'check'
-        // botão para excluir despesa
-        let btn = document.createElement('button')
-        btn.innerHTML = '<i class="fas fa-times"></i>'
-        btn.id = element.id
-        btn.onclick = function () {
-            var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
-            if (r == true) {
-                bancoDados.remover(element.id)
-                if (btnAtualizar == 'despesas') {
-                    carregarListaDespesa()
-                }
-                if (btnAtualizar == 'pesquisas') {
-                    pesquisarDespesa()
-                }
-            }
-        }
-        // inserir as coisas
-        linha.insertCell().append(checkbox)
-        linha.insertCell().innerHTML = `${element.dia}/${element.mes}/${element.ano}`
-        linha.insertCell().innerHTML = element.tipo
-        linha.insertCell().innerHTML = element.descrição
-        linha.insertCell().innerHTML = element.valor
-        linha.insertCell().append(btn)
-    })
-}
-
-function carregarListaDespesa() {
-    let listaDespesas = document.getElementById('listaDespesas')
-    let despesas = bancoDados.recuperarTodosRegistros()
-    listaDespesas.innerHTML = ''
-    imprimirDespesas(despesas, listaDespesas, 'despesas')
-}
-
-
-function pesquisarDespesa() {
-    let ano = document.getElementById('ano').value
-    let mes = document.getElementById('mes').value
-    let dia = document.getElementById('dia').value
-    let tipo = document.getElementById('tipo').value
-    let descrição = document.getElementById('descricao').value
-    let valor = document.getElementById('valor').value
-
-    let despesa = new Despesa(ano, mes, dia, tipo, descrição, valor)
-
-    let despesasFiltradas = bancoDados.pesquisar(despesa)
-    let listaDespesas = document.getElementById('listaDespesas')
-    listaDespesas.innerHTML = ''
-    imprimirDespesas(despesasFiltradas, listaDespesas, 'pesquisas')
-}
-
 function preencherDataAutomaticamente() {
     let hoje = new Date()
     let dia = hoje.getDate()
@@ -276,28 +303,33 @@ function preencherDataAutomaticamente() {
 }
 
 
+function carregarTabela() {
+    let listaDespesas = document.getElementById('listaDespesas')
+    let despesas = bancoDados.recuperarTodosRegistros()
+    let tabela = new Tabela(listaDespesas)
 
-function apagarSelecionados() {
-    let checks = document.getElementsByName('check')
-    var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
-    if (r == true) {
-        checks.forEach(element => {
-            if (element.checked == true) {
-                bancoDados.remover(element.value)
-            }
-        });
-        window.location.reload()
+    let btn1 = document.getElementById('selecionarTodos')
+    let btn2 = document.getElementById('apagarSelecionados')
+
+    tabela.imprimirDespesas(despesas,)
+
+    btn1.onclick = function () {
+        tabela.selecionarTodosItems()
     }
 
+    btn2.onclick = function () {
+        tabela.apagarItemsSelecionados()
+    }
 }
 
-function selecionarTodos() {
-    let checks = document.getElementsByName('check')
-    checks.forEach(element => {
-        if (element.checked == false) {
-            element.checked = true
-        } else {
-            element.checked = false
-        }
-    });
+function pesquisarTabela() {
+    let listaDespesas = document.getElementById('listaDespesas')
+    let ano = document.getElementById('ano').value
+    let mes = document.getElementById('mes').value
+    let dia = document.getElementById('dia').value
+    let tipo = document.getElementById('tipo').value
+    let descrição = document.getElementById('descricao').value
+    let valor = document.getElementById('valor').value
+    let tabela = new Tabela(listaDespesas, ano, mes, dia, tipo, descrição, valor)
+    tabela.imprimirDespesasPesquisadas()
 }
