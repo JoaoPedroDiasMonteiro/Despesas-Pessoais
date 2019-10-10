@@ -181,7 +181,7 @@ class Tabela {
         this.lugarParaImprimir.innerHTML = ''
         despesas.forEach(element => {
             let linha = this.lugarParaImprimir.insertRow()
-            linha.classList = 'aaa'
+            linha.classList = 'tableRow'
             // criar checkbox
             let checkbox = document.createElement('input')
             checkbox.type = 'checkbox'
@@ -228,14 +228,21 @@ class Tabela {
         })
     }
     selecionarTodosItems() {
-        let checks = document.getElementsByName('check')
-        checks.forEach(element => {
-            if (element.checked == false) {
-                element.checked = true
-            } else {
-                element.checked = false
+        // let rows = document.querySelectorAll('.tableRow')
+        // let checks = document.getElementsByName('check')
+        // o metodo Array.from é usado pq o NodeList não funciona
+        let row = Array.from(document.querySelectorAll('.tableRow'))
+        let checkbox = Array.from(document.getElementsByName('check'))
+
+        for (let i = 0; i < checkbox.length; i++) {
+            if (checkbox[i].checked == false) {
+                checkbox[i].checked = true
+                row[i].style.backgroundColor = 'rgba(173, 173, 173, 0.63)'
+            } else if (checkbox[i].checked == true) {
+                checkbox[i].checked = false
+                row[i].style.backgroundColor = 'white'
             }
-        });
+        }
     }
     apagarItemsSelecionados() {
         let checks = document.getElementsByName('check')
@@ -311,7 +318,7 @@ function carregarTabela() {
     let btn1 = document.getElementById('selecionarTodos')
     let btn2 = document.getElementById('apagarSelecionados')
 
-    tabela.imprimirDespesas(despesas,)
+    tabela.imprimirDespesas(despesas, )
 
     btn1.onclick = function () {
         tabela.selecionarTodosItems()
