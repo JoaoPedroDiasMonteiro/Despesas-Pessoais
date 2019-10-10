@@ -215,7 +215,7 @@ class Tabela {
                 var r = confirm('Você está prestes a deletar um ou mais itens!\nSe você realmente deseja fazer isso clique em OK.\nSe não clique em CANCELAR.')
                 if (r == true) {
                     bancoDados.remover(element.id)
-                    window.location.reload()
+                    pesquisarTabela()
                 }
             }
             // inserir as coisas
